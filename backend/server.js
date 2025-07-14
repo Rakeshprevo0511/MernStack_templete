@@ -16,8 +16,6 @@ app.use(express.json());
 connectDB();
 
 app.use('/api/employees', employeeRoutes);
-app.use('/api/employeescourse', employeeRoutes);
-app.use('/api', employeeRoutes);
 app.use('/Auth',authroute);
 
 const PORT = process.env.PORT || 5000;

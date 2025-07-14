@@ -5,6 +5,9 @@ const {Employee, EmployeeCourses,Courses } = require('../models/employeeModel');
 const getAllEmployees = async () => {
   return await Employee.find();
 };
+const getEmployeeById = async (id) => {
+    return await Employee.findById(id); // Mongoose's _id
+};
 const getAllCourses = async () => {
   return await EmployeeCourses.find();
 };
@@ -14,6 +17,11 @@ const AllCourses = async () => {
 const createEmployee = async (employeeData) => {
   const employee = new Employee(employeeData);
   return await employee.save();
+};
+const updateEmployee = async (id, employeeData) => {
+  // Example using Mongoose:
+  const updatedEmployee = await Employee.findByIdAndUpdate(id, employeeData, { new: true });
+  return updatedEmployee;
 };
 const getEmployeeCourseCompletionDetails = async () => {
   return await EmployeeCourses.aggregate([
@@ -57,10 +65,22 @@ const getEmployeeCourseCompletionDetails = async () => {
   ]);
 };
 
+const deleteEmployee = async (id) => {
+  try {
+    const deletedEmployee = await Employee.findByIdAndDelete(id);
+    return deletedEmployee;  // returns null if no document found
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   getAllEmployees,
   createEmployee,
   getAllCourses,
   AllCourses,
   getEmployeeCourseCompletionDetails,
+  getEmployeeById,
+  updateEmployee,
+
+  deleteEmployee,
 };

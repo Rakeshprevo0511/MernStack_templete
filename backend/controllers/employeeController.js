@@ -11,6 +11,19 @@ const getEmployees = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+const getEmployeeById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const employee = await employeeService.getEmployeeById(id);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.json(employee);
+    } catch (err) {
+        console.error('Error fetching employee:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 const getcourses = async (req, res) => {
   try {
     const courses = await employeeService.getAllCourses();
@@ -48,10 +61,39 @@ const getEmployeeCourseCompletionDetails = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+const updateEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const employeeData = req.body;
+    const updatedEmployee = await employeeService.updateEmployee(id, employeeData);
+    res.status(200).json(updatedEmployee);
+  } catch (err) {
+    console.error('Error updating employee:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+const deleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedEmployee = await employeeService.deleteEmployee(id);
+    if (!deletedEmployee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+    res.json({ message: 'Employee deleted successfully' });
+  } catch (error) {
+    console.error('Delete employee error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 module.exports = {
   getEmployees,
   addEmployee,
   getcourses,
   courses,
   getEmployeeCourseCompletionDetails,
+  updateEmployee,
+  getEmployeeById,
+  deleteEmployee,
 };
