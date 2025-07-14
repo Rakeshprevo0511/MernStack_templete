@@ -31,11 +31,11 @@ toast.success("Welcome To Portal")
                 // You may redirect or load EmployeeList here:
                 // window.location.href = '/employees';
             } else {
-                setMessage('Invalid credentials.');
+                toast.error('Invalid credentials.');
             }
         } catch (error) {
             console.error(error);
-            setMessage('Login failed. Please check your credentials or server.');
+            toast.error('Login failed. Please check your credentials or server.');
         }
     };
 

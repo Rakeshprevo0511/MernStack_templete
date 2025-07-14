@@ -7,10 +7,10 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const authroute =require('./routes/AuthRoutes')
 const app = express();
 
-
 // Enable CORS only once
 app.use(cors({
-  origin: 'http://localhost:3000'
+    origin: process.env.CLIENT_URL,
+    credentials: true // if you are using cookies/auth, keep this
 }));
 app.use(express.json());
 connectDB();
