@@ -30,13 +30,12 @@ const handleEdit = (id) => {
 
 
 const handleView = async (empId) => {
+
         try {
             const res = await axios.get(`http://localhost:5000/api/employees/employee-course-details`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-
-            const employeeData = res.data.find(emp => emp.EmployeeId === empId);
-
+            const employeeData = res.data.find(emp => emp.EmployeeId === empId); 
             if (employeeData) {
                 setSelectedEmployee(employeeData);
                 setShowModal(true);
@@ -128,6 +127,7 @@ const handleDelete = async (id) => {
                 <tbody>
                     {employees.map((emp) => (
                         <tr key={emp._id}>
+                          
                             <td>{emp.EmpName}</td>
                             <td>{emp.Position}</td>
                             <td>{emp.Location}</td>
@@ -136,25 +136,33 @@ const handleDelete = async (id) => {
                             <td>{emp.Email}</td>
                             <td>{emp.PhoneNumber}</td>
                              <td className="text-center">
+                                 <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id={`tooltip-view-${emp.Id}`}>Edit Employee</Tooltip>}>
                         <button
                             className="btn btn-sm btn-primary me-1"
                             onClick={() => handleEdit(emp._id)}
                         >
                             <FontAwesomeIcon icon={faEdit} />
                         </button>
+                        </OverlayTrigger>
+                         <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id={`tooltip-view-${emp.Id}`}>Delete</Tooltip>}>
                         <button
                             className="btn btn-sm btn-danger me-1"
                             onClick={() => handleDelete(emp._id)}
                         >
                             <FontAwesomeIcon icon={faTrash} />
                         </button>
+                        </OverlayTrigger>
                       <OverlayTrigger
     placement="top"
-    overlay={<Tooltip id={`tooltip-view-${emp._id}`}>View Completed Courses</Tooltip>}
+    overlay={<Tooltip id={`tooltip-view-${emp.Id}`}>View Completed Courses</Tooltip>}
 >
     <button
         className="btn btn-sm btn-info"
-        onClick={() => handleView(emp._id)}
+        onClick={() => handleView(emp.Id)}
     >
         <FontAwesomeIcon icon={faEye} />
     </button>

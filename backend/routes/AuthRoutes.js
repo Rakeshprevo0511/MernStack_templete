@@ -65,7 +65,7 @@ router.post('/request-otp', async (req, res) => {
 
     try {
         await transporter.sendMail({
-            from: 'rakeshnagpure71@gmail',
+            from: 'Mern App OTP',
             to: email,
             subject: 'Your OTP Code',
             text: `Your OTP code is: ${otp}`
@@ -94,8 +94,8 @@ function generateOTP() {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'rakeshnagpure71@gmail.com',
-        pass: 'qedi okrr fman kzqd'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 module.exports = router;

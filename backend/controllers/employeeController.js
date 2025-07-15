@@ -87,6 +87,7 @@ const deleteEmployee = async (req, res) => {
 };
 
 
+
 module.exports = {
   getEmployees,
   addEmployee,
@@ -96,4 +97,5 @@ module.exports = {
   updateEmployee,
   getEmployeeById,
   deleteEmployee,
+
 };
