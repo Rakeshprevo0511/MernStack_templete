@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/UserAccModel');
+const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
+
+
 require('dotenv').config();
+const { saveOTP, verifyOTP } = require('../Otp_store');
 
 // Login API
 router.post('/login', async (req, res) => {
@@ -51,4 +56,46 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/request-otp', async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).send({ message: 'Email is required' });
+
+    const otp = generateOTP();
+    saveOTP(email, otp);
+
+    try {
+        await transporter.sendMail({
+            from: 'rakeshnagpure71@gmail',
+            to: email,
+            subject: 'Your OTP Code',
+            text: `Your OTP code is: ${otp}`
+        });
+        res.send({ message: 'OTP sent to email',OTP:otp });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Failed to send OTP' });
+    }
+});
+
+// Route to verify OTP
+router.post('/verify-otp', (req, res) => {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).send({ message: 'Email and OTP are required' });
+
+    if (verifyOTP(email, otp)) {
+        res.send({ message: 'OTP verified successfully' });
+    } else {
+        res.status(400).send({ message: 'Invalid or expired OTP' });
+    }
+});
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'rakeshnagpure71@gmail.com',
+        pass: 'qedi okrr fman kzqd'
+    }
+});
 module.exports = router;

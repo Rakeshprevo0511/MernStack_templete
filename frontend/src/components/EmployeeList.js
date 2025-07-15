@@ -6,10 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import EmployeeCourseModal from './EmployeeCourseModal'; // import the modal
 
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -25,10 +29,30 @@ const handleEdit = (id) => {
     };
 
 
-const handleView = (id) => {
-    console.log("View", id);
-    // Navigate to view page or open modal
-};
+const handleView = async (empId) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/employees/employee-course-details`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const employeeData = res.data.find(emp => emp.EmployeeId === empId);
+
+            if (employeeData) {
+                setSelectedEmployee(employeeData);
+                setShowModal(true);
+            } else {
+                toast.info('No completed courses found for this employee');
+            }
+        } catch (error) {
+            console.error('Error fetching course completion details:', error);
+            toast.error('Error fetching course completion details');
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedEmployee(null);
+    };
   const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -124,15 +148,25 @@ const handleDelete = async (id) => {
                         >
                             <FontAwesomeIcon icon={faTrash} />
                         </button>
-                        <button
-                            className="btn btn-sm btn-info"
-                            onClick={() => handleView(emp._id)}
-                        >
-                            <FontAwesomeIcon icon={faEye} />
-                        </button>
+                      <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id={`tooltip-view-${emp._id}`}>View Completed Courses</Tooltip>}
+>
+    <button
+        className="btn btn-sm btn-info"
+        onClick={() => handleView(emp._id)}
+    >
+        <FontAwesomeIcon icon={faEye} />
+    </button>
+</OverlayTrigger>
                     </td>
                         </tr>
                     ))}
+                     <EmployeeCourseModal
+                show={showModal}
+                handleClose={handleCloseModal}
+                employee={selectedEmployee}
+            />
                 </tbody>
             </table>
         </div>

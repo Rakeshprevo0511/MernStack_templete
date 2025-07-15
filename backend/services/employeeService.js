@@ -81,6 +81,5 @@ module.exports = {
   getEmployeeCourseCompletionDetails,
   getEmployeeById,
   updateEmployee,
-
   deleteEmployee,
 };
