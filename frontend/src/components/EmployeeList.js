@@ -7,6 +7,8 @@ import { faEdit, faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import EmployeeCourseModal from "./EmployeeCourseModal";
+import { generateEmployeesPDF } from '../utils/pdfGenerator';
+
 
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
@@ -141,7 +143,7 @@ function EmployeeList() {
     {/* Search Input */}
      <button
           onClick={handleAddEmployee}
-          className="bg-green-500 px-4 py-2 rounded hover:bg-green-600 text-dark"
+            className="button-green"
         >
           Add Employee
         </button>
@@ -188,6 +190,9 @@ function EmployeeList() {
         <option key={pos} value={pos}>{pos}</option>
       ))}
     </select>
+    <button className="bg-green-500 px-4 py-2 rounded hover:bg-green-600 text-dark" onClick={() => generateEmployeesPDF(employees)}>
+    Download PDF
+</button>
   </div>
 </div>
 

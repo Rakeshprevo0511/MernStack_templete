@@ -38,3 +38,16 @@ body {
         linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.3) 75%);
     background-size: 40px 40px;
 }
+.button-green {
+  background-color: #22c55e; /* a green */
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-green:hover {
+  background-color: #16a34a; /* darker green on hover */
+}
