@@ -13,6 +13,8 @@ router.use(authenticateToken);
 router.get('/employee-course-details', employeeController.getEmployeeCourseCompletionDetails);
 router.get('/empcourse', employeeController.getcourses);
 router.get('/Course', employeeController.courses);
+router.get('/dashboardetails', employeeController.getDashDetails);
+
 // Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -32,11 +34,11 @@ router.post('/upload', upload.single('file'), (req, res) => {
     });
 });
 
-
 // Standard CRUD
 router.get('/', employeeController.getEmployees);
 router.get('/:id', employeeController.getEmployeeById);
 router.post('/', employeeController.addEmployee);
 router.put('/:id', employeeController.updateEmployee);
 router.delete('/:id', employeeController.deleteEmployee);
+
 module.exports = router; 

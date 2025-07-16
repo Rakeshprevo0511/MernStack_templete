@@ -109,6 +109,20 @@ const deleteEmployee = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+const getDashDetails = async (req, res) => {
+  try {
+    const employeeCount = await employeeService.getEmployeeCount();
+    const courseCount = await employeeService.getCourseCount();
+
+    res.json({
+      employeeCount,
+      courseCount
+    });
+  } catch (err) {
+    console.error('Error fetching dashboard details:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 module.exports = {
   getEmployees,
@@ -119,5 +133,6 @@ module.exports = {
   updateEmployee,
   getEmployeeById,
   deleteEmployee,
+  getDashDetails,
 
 };

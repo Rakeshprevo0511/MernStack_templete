@@ -20,6 +20,7 @@ function EmployeeList() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(1);
 
   const [availableLocations, setAvailableLocations] = useState([]);
   const [availablePositions, setAvailablePositions] = useState([]);
@@ -63,8 +64,9 @@ function EmployeeList() {
     setAvailablePositions(positions);
     setCurrentPage(response.data.currentPage || 1);
     setTotalPages(response.data.totalPages || 1);
+    setTotalCount(response.data.totalRecords || 1);
   } catch (error) {
-    console.error("Error fetching employees:", error);
+      navigate('/');
     toast.error("Error fetching employees");
   } finally {
     setLoading(false);
@@ -260,7 +262,7 @@ function EmployeeList() {
 
           {/* Pagination Controls */}
           <nav aria-label="Employee list pagination">
-            <ul className="pagination justify-content-center">
+            <ul className="pagination justify-content-right">
               <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                 <button
                   className="page-link"

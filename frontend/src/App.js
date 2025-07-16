@@ -8,6 +8,8 @@ import EmployeeForm from './components/EmployeeForm';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Dashboard from './components/Dashboard';
 
 function App() {
     return (
@@ -20,6 +22,7 @@ function App() {
                 <Route path="/employees" element={   <Layout>
                             <EmployeeList />
                         </Layout>} />
+                          <Route path="/Dashboard" element={<Layout><Dashboard /></Layout>} />
                           <Route path="/employees/add" element={<Layout><EmployeeForm /></Layout>} />
                           <Route path="/employees/edit/:id" element={<Layout><EmployeeForm /></Layout>} />
             </Routes>

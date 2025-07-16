@@ -77,6 +77,14 @@ const deleteEmployee = async (id) => {
     throw error;
   }
 };
+const getEmployeeCount = async () => {
+  return Employee.countDocuments();
+};
+
+const getCourseCount = async () => {
+  return Courses.countDocuments();
+};
+
 module.exports = {
   countEmployees,
   getEmployeesWithQuery,
@@ -87,4 +95,6 @@ module.exports = {
   getEmployeeById,
   updateEmployee,
   deleteEmployee,
+  getCourseCount,
+  getEmployeeCount,
 };

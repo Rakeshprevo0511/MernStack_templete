@@ -27,7 +27,7 @@ const LoginForm = () => {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
 toast.success("Welcome To Portal")
                 setMessage(response.data.message || 'Login successful!');
-                 navigate('/employees');
+                 navigate('/Dashboard');
                 // You may redirect or load EmployeeList here:
                 // window.location.href = '/employees';
             } else {
