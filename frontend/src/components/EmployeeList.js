@@ -129,7 +129,23 @@ function EmployeeList() {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
-
+const handleExport = async () => {
+    try {
+        if (searchTerm || locationFilter || positionFilter) {
+            // filters applied ➔ export filtered employees currently displayed
+            generateEmployeesPDF(employees);
+        } else {
+            // no filters ➔ fetch all employees
+            const res = await axios.get(`http://localhost:5000/api/employees?limit=10000`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            generateEmployeesPDF(res.data.data || []);
+        }
+    } catch (error) {
+        console.error("Error exporting PDF:", error);
+        toast.error("Error exporting PDF");
+    }
+};
   return (
     <div className="container">
       <div className="flex justify-between items-center mb-4">
@@ -190,7 +206,7 @@ function EmployeeList() {
         <option key={pos} value={pos}>{pos}</option>
       ))}
     </select>
-    <button className="bg-green-500 px-4 py-2 rounded hover:bg-green-600 text-dark" onClick={() => generateEmployeesPDF(employees)}>
+    <button className="btn-primary"  onClick={handleExport}>
     Download PDF
 </button>
   </div>
