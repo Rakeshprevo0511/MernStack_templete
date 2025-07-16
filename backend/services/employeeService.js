@@ -2,8 +2,12 @@
 ///services/employeeServices
 const {Employee, EmployeeCourses,Courses } = require('../models/employeeModel');
 
-const getAllEmployees = async () => {
-  return await Employee.find();
+const getEmployeesWithQuery = async (query, skip, limit) => {
+    return Employee.find(query).skip(skip).limit(limit).lean();
+};
+
+const countEmployees = async (query) => {
+    return Employee.countDocuments(query);
 };
 const getEmployeeById = async (id) => {
     return await Employee.findById(id); // Mongoose's _id
@@ -74,7 +78,8 @@ const deleteEmployee = async (id) => {
   }
 };
 module.exports = {
-  getAllEmployees,
+  countEmployees,
+  getEmployeesWithQuery,
   createEmployee,
   getAllCourses,
   AllCourses,

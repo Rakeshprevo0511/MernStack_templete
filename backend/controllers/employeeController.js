@@ -1,15 +1,39 @@
 //controllers/employeeController
-
 const employeeService = require('../services/employeeService');
 
 const getEmployees = async (req, res) => {
-  try {
-    const employees = await employeeService.getAllEmployees();
-    res.json(employees);
-  } catch (err) {
-    console.error('Error fetching employees:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
+    try {
+        const { page = 1, limit = 10, search = '', location, position } = req.query;
+
+        const query = {};
+
+        if (search) {
+            query.EmpName = { $regex: search, $options: 'i' }; // case-insensitive name search
+        }
+        if (location) {
+            query.Location = location;
+        }
+        if (position) {
+            query.Position = position;
+        }
+
+        const skip = (page - 1) * limit;
+
+        const [employees, total] = await Promise.all([
+            employeeService.getEmployeesWithQuery(query, skip, parseInt(limit)),
+            employeeService.countEmployees(query),
+        ]);
+
+        res.json({
+            data: employees,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(total / limit),
+            totalRecords: total,
+        });
+    } catch (err) {
+        console.error('Error fetching employees:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 const getEmployeeById = async (req, res) => {
     try {
@@ -85,8 +109,6 @@ const deleteEmployee = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-
 
 module.exports = {
   getEmployees,

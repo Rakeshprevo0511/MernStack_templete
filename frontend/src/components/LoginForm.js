@@ -40,7 +40,7 @@ toast.success("Welcome To Portal")
     };
 
       return (
-        <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div className="d-flex justify-content-center align-items-center vh-100 light-grey-texture">
             <div className="card shadow p-4" style={{ width: '350px' }}>
                 <h3 className="text-center mb-4">Login</h3>
                 <form onSubmit={handleSubmit}>

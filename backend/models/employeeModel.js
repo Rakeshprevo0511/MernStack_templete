@@ -12,7 +12,7 @@ const employeeSchema = new mongoose.Schema({
   Password: String,
   Username: String,
   JoiningDate: Date,
-  FilePath_pic: String,
+  ImagePath: String,
 }, { collection: 'Empoyee' }); // Correct collection name
 
 const employeeCourseSchema = new mongoose.Schema({

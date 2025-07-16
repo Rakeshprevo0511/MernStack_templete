@@ -15,11 +15,22 @@ const EmployeeForm = () => {
         Age: '',
         Salary: '',
         Email: '',
-        PhoneNumber: ''
+        PhoneNumber: '',
+        ImagePath: '' 
     });
 
     const token = localStorage.getItem("token"); // Retrieve token
  
+    const [selectedFile, setSelectedFile] = useState(null);
+     const [previewUrl, setPreviewUrl] = useState(null);
+    const [uploadedFilePath, setUploadedFilePath] = useState('');
+
+     const handleFileSelection = (file) => {
+    if (file) {
+        setSelectedFile(file);
+        setPreviewUrl(URL.createObjectURL(file)); // only preview
+    }
+};
     useEffect(() => {
         if (id) {
             axios.get(`http://localhost:5000/api/employees/${id}`, {
@@ -27,7 +38,13 @@ const EmployeeForm = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(res => setEmployee(res.data))
+             .then(res => {
+            setEmployee(res.data);
+            // If there is an existing image, set it for preview
+            if (res.data.ImagePath) {
+                setPreviewUrl(`http://localhost:5000${res.data.ImagePath}`);
+            }
+        })
             .catch(err => {
                 console.error(err);
                 alert('Error fetching employee data. Please ensure you are logged in.');
@@ -43,6 +60,34 @@ const EmployeeForm = () => {
             [name]: value
         }));
     };
+
+const uploadFile = async () => {
+    if (!selectedFile) {
+        toast.error('Please select a file before uploading.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+        const res = await axios.post('http://localhost:5000/upload', formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        setUploadedFilePath(res.data.filePath);
+        setEmployee(prev => ({
+    ...prev,
+    ImagePath: res.data.filePath
+}));
+        toast.success('File uploaded successfully.');
+    } catch (error) {
+        console.error(error);
+        toast.error('Error uploading file.');
+    }
+};
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -171,6 +216,40 @@ const EmployeeForm = () => {
                 required
             />
         </div>
+       <div className="row  mb-3">
+    <label className="form-label">Upload Image</label>
+    <input
+        type="file"
+        className="form-control"
+        onChange={(e) => handleFileSelection(e.target.files[0])}
+    />
+</div>
+
+{previewUrl && (
+    <div className="row mb-3">
+        <img
+            src={previewUrl}
+            alt="Preview"
+            style={{ maxWidth: '200px', maxHeight: '200px', marginTop: '10px' }}
+        />
+    </div>
+)}
+
+{selectedFile && !uploadedFilePath && (
+    <button
+        type="button"
+        className="btn btn-info mb-3"
+        onClick={uploadFile}
+    >
+        Upload
+    </button>
+)}
+
+{uploadedFilePath && (
+    <div className="mb-3">
+        <p className="text-success">File uploaded: {uploadedFilePath}</p>
+    </div>
+)}
     </div>
 
     <button type="submit" className="btn btn-primary me-2">
