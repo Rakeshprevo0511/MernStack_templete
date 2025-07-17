@@ -3,7 +3,7 @@ import '../style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Layout = ({ children }) => {
@@ -18,6 +18,17 @@ const Layout = ({ children }) => {
     }
 
 };
+    useEffect(() => {
+        const isLogin = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/'); // or your login route
+            }
+        };
+
+        isLogin();
+    }, [navigate]);
+
  const handleTabClick = (tab) => {
     switch (tab) {
       case 'Dashboard':
