@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('${process.env.REACT_APP_API_URL}/api/employees/dashboardetails', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/employees/dashboardetails`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

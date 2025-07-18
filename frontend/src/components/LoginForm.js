@@ -14,10 +14,10 @@ const LoginForm = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/Auth/Login', {
-                login_name: loginName,
-                login_pass: password,
-            });
+           const response = await axios.post(`${process.env.REACT_APP_API_URL}/Auth/login`, {
+    login_name: loginName,
+    login_pass: password,
+});
 
             console.log(response.data); // View the full response for debugging
 

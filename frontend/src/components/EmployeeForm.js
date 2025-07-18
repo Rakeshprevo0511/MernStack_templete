@@ -71,7 +71,7 @@ const uploadFile = async () => {
     formData.append('file', selectedFile);
 
     try {
-        const res = await axios.post('http://localhost:5000/upload', formData, {
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/upload`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
