@@ -33,7 +33,7 @@ const EmployeeForm = () => {
 };
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:5000/api/employees/${id}`, {
+            axios.get(`${process.env.REACT_APP_API_URL}/api/employees/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -42,7 +42,7 @@ const EmployeeForm = () => {
             setEmployee(res.data);
             // If there is an existing image, set it for preview
             if (res.data.ImagePath) {
-                setPreviewUrl(`http://localhost:5000${res.data.ImagePath}`);
+                setPreviewUrl(`${process.env.REACT_APP_API_URL}${res.data.ImagePath}`);
             }
         })
             .catch(err => {

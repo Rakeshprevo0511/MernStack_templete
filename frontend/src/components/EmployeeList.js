@@ -45,7 +45,7 @@ function EmployeeList() {
   try {
     setLoading(true);
     const response = await axios.get(
-      `http://localhost:5000/api/employees?page=${page}&limit=${employeesPerPage}&search=${encodeURIComponent(
+      `${process.env.REACT_APP_API_URL}/api/employees?page=${page}&limit=${employeesPerPage}&search=${encodeURIComponent(
         search
       )}&location=${encodeURIComponent(location)}&position=${encodeURIComponent(
         position
@@ -86,7 +86,7 @@ function EmployeeList() {
   const handleView = async (empId) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/employees/employee-course-details`,
+        `${process.env.REACT_APP_API_URL}/api/employees/employee-course-details`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -113,7 +113,7 @@ function EmployeeList() {
     if (!window.confirm("Are you sure you want to delete this employee?"))
       return;
     try {
-      await axios.delete(`http://localhost:5000/api/employees/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/employees/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Employee deleted successfully");
@@ -136,7 +136,7 @@ const handleExport = async () => {
             generateEmployeesPDF(employees);
         } else {
             // no filters ➔ fetch all employees
-            const res = await axios.get(`http://localhost:5000/api/employees?limit=10000`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/employees?limit=10000`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             generateEmployeesPDF(res.data.data || []);
