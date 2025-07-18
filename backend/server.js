@@ -10,6 +10,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+require('dotenv').config();
 // Enable CORS only once
 app.use(cors({
     origin: process.env.CLIENT_URL,
