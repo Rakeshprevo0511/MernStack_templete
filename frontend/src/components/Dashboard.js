@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [data, setData] = useState({
@@ -8,7 +9,7 @@ const Dashboard = () => {
     pendingTasks: 0,
     messages: 0,
   });
-
+ const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -28,8 +29,10 @@ const Dashboard = () => {
         });
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
+       
       } finally {
         setLoading(false);
+         
       }
     };
 

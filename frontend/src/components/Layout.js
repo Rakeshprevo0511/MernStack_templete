@@ -3,11 +3,11 @@ import '../style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Layout = ({ children }) => {
-    const tabs = ['Dashboard', 'Employees', 'Reports', 'Settings'];
+    const tabs = ['Dashboard', 'Employees',  'Settings'];
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
    const handlelogout = () => {
@@ -18,6 +18,17 @@ const Layout = ({ children }) => {
     }
 
 };
+useEffect(() => {
+        const isLogin = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/'); // or your login route
+            }
+        };
+
+        isLogin();
+    }, [navigate]);
+
  const handleTabClick = (tab) => {
     switch (tab) {
       case 'Dashboard':
@@ -26,12 +37,7 @@ const Layout = ({ children }) => {
       case 'Employees':
         navigate('/employees');
         break;
-      case 'Reports':
-        navigate('/reports');
-        break;
-      case 'Settings':
-        navigate('/settings');
-        break;
+      
       default:
         navigate('/');
     }
@@ -54,7 +60,11 @@ const Layout = ({ children }) => {
                     className="btn btn-dark border-0 mb-3 mt-2"
                     style={{ fontSize: '24px', lineHeight: '0' }}
                 >
-                    ⋮
+                     <img 
+    src="/logo512.png" 
+    alt="Logo"
+    style={{ height: '24px', width: '24px', objectFit: 'contain' }}
+/>
                 </button>
 
                 {/* Tabs */}

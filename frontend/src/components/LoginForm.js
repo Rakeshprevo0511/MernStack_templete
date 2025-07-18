@@ -34,7 +34,7 @@ toast.success("Welcome To Portal")
                 toast.error('Invalid credentials.');
             }
         } catch (error) {
-            console.error(error);
+            console.error("the error is "+error);
             toast.error('Login failed. Please check your credentials or server.');
         }
     };

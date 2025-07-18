@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/PracticeDB', {
+        await mongoose.connect('mongodb+srv://rakesh:12345@cluster0.ol2mpjn.mongodb.net/PracticeDB?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
