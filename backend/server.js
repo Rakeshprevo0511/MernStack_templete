@@ -17,11 +17,7 @@ app.use(cors({
     credentials: true // if you are using cookies/auth, keep this
 }));
 
-// This handles preflight OPTIONS requests for all routes
-app.options('*', cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
-}));
+
 app.use(express.json());
 connectDB();
 
