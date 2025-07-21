@@ -129,6 +129,7 @@ const uploadFile = async () => {
     };
 
     return (
+        <div className='main-panel'>
         <div className="container mt-4">
             <h3>{id ? 'Edit Employee' : 'Add Employee'}</h3>
             <form onSubmit={handleSubmit}>
@@ -263,7 +264,8 @@ const uploadFile = async () => {
         Cancel
     </button>
 </form>
-
+<div id="map" style={{ height: "400px", width: "100%" }}></div>
+        </div>
         </div>
     );
 };
